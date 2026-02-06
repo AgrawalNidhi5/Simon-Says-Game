@@ -14,30 +14,18 @@ let gameOverAudio = new Audio("gameover.mp3");
 
 
 
-function btnPress(){
-    let btn = this;
+document.addEventListener("keypress", function(){
+    if(started == false){
+     started = true;
 
-    // ✅ START GAME ON FIRST TAP / CLICK
-    if (!started) {
-        started = true;
+     // 🔊 unlock audio for browser
+     audio.play();
+     audio.pause();
+     audio.currentTime = 0;
 
-        // unlock audio for mobile
-        audio.play().then(() => {
-            audio.pause();
-            audio.currentTime = 0;
-        }).catch(() => {});
-
-        levelUp();
-        return;
-    }
-
-    userFlash(btn);
-
-    let userColor = btn.getAttribute("id");
-    userSeq.push(userColor);
-
-    checkAns(userSeq.length - 1);
-}
+     levelUp();
+    } 
+});
 
 
 function gameFlash(btn){
@@ -67,7 +55,7 @@ function levelUp(){
    level++; 
    h2.innerText=`Level ${level}`;
 
-   let randIdx= Math.floor(Math.random() * 4);
+   let randIdx= Math.floor(Math.random() * 3);
    let randColor= btns[randIdx];
    let randBtn= document.querySelector(`.${randColor}`);
 //    console.log(randIdx);
@@ -92,7 +80,7 @@ if (level > highScore) {
 
 h2.innerHTML = `Game Over! Your score was <b>${level}</b> 
 <br> Highest Score: <b>${highScore}</b>
-<br> Tap any button to start.`;
+<br> Press any key to start.`;
 
 
    document.querySelector("body").style.backgroundColor ="red";
